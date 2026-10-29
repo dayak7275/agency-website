@@ -1,6 +1,6 @@
 
 import { useRef, useMemo, useCallback } from 'react'
-import { useFrame } from '@react-three/fiber'
+import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
 
 const PARTICLE_COUNT = 6000
@@ -119,11 +119,13 @@ export default function HeroCanvas({
   if (disabled) return null
 
   return (
-    <points
-      ref={pointsRef}
-      geometry={geometry}
-      material={material}
-      onPointerMove={handlePointerMove}
-    />
+    <Canvas className="absolute inset-0 -z-10 w-full h-full">
+      <points
+        ref={pointsRef}
+        geometry={geometry}
+        material={material}
+        onPointerMove={handlePointerMove}
+      />
+    </Canvas>
   )
 }
