@@ -1,7 +1,7 @@
-import Hero from './components/Hero'
+import HeroSection from './sections/Hero/HeroSection'
 
 function App() {
-  return <Hero />
+  return <HeroSection />
 }
 
 export default App

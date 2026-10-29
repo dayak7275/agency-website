@@ -16,7 +16,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import HeroCanvas from './HeroCanvas'
+import HeroCanvas from '../sections/Hero/HeroCanvas'
 import GlassMetrics from './GlassMetrics'
 import CustomerAcquisition from './CustomerAcquisition'
 
