@@ -1,4 +1,3 @@
-
 import { useRef, useMemo, useCallback } from 'react'
 import { Canvas, useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
@@ -55,15 +54,19 @@ function buildParticleMaterial() {
   })
 }
 
-export default function HeroCanvas({
-  disabled = false,
-}: HeroCanvasProps) {
+/** Renders inside the Canvas context — this is where useFrame is legal. */
+function PointsContent({
+  disabled,
+  geometry,
+  material,
+}: {
+  disabled: boolean
+  geometry: THREE.BufferGeometry
+  material: THREE.PointsMaterial
+}) {
   const pointsRef = useRef<THREE.Points>(null)
   const mouseTarget = useRef(new THREE.Vector2())
   const mouseCurrent = useRef(new THREE.Vector2())
-
-  const geometry = useMemo(buildParticleGeometry, [])
-  const material = useMemo(buildParticleMaterial, [])
 
   const handlePointerMove = useCallback(
     (event: { pointer: THREE.Vector2 }) => {
@@ -119,13 +122,26 @@ export default function HeroCanvas({
   if (disabled) return null
 
   return (
+    <points
+      ref={pointsRef}
+      geometry={geometry}
+      material={material}
+      onPointerMove={handlePointerMove}
+    />
+  )
+}
+
+export default function HeroCanvas({
+  disabled = false,
+}: HeroCanvasProps) {
+  const geometry = useMemo(buildParticleGeometry, [])
+  const material = useMemo(buildParticleMaterial, [])
+
+  if (disabled) return null
+
+  return (
     <Canvas className="absolute inset-0 -z-10 w-full h-full">
-      <points
-        ref={pointsRef}
-        geometry={geometry}
-        material={material}
-        onPointerMove={handlePointerMove}
-      />
+      <PointsContent disabled={disabled} geometry={geometry} material={material} />
     </Canvas>
   )
 }
